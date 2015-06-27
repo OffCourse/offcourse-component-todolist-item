@@ -5,14 +5,21 @@ class Example extends React.Component {
 
   constructor(props){
     super(props);
+
     let item = {
       id: 1,
-      title: "Foo",
-      complete: false
+      title: "Foo Bar Baz Foo Bar Baz Bar Bar Baz",
+      complete: false,
+      highlight: false
     };
+
     this.state = { item };
   }
-  handleHover(id){ console.log(id); };
+  handleHover(){
+    let { item } = this.state;
+    item.highlight = !item.highlight;
+    this.setState({item});
+  };
   handleClick(origin, selection){
     let { item } = this.state;
     if(origin === "checkbox"){

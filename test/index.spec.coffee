@@ -14,14 +14,21 @@ describe "Todolist Item Component", ->
     testdom "<html><body></body></html>"
     @item = 
       id: 1
+      title: 'Foo'
 
   describe "general", ->
     When  -> @subject  = renderElement @Component, { @item }
     Then  -> @classes = @subject.className.split ' '
+    And   -> @subject.textContent == 'Foo'
     And   -> @classes.includes "todolist_item"
     And   -> !@classes.includes "todolist_item-is-highlighted"
     And   -> @checkbox = @subject.querySelector('.checkbox')
     And   -> @checkbox.className.split(' ').includes 'checkbox-is-incomplete'
+
+  describe "long titles", ->
+    Given -> @item.title = "Foo Bar Baz Foo Bar Baz Bar Bar Baz"
+    When  -> @subject  = renderElement @Component, { @item }
+    Then  -> @subject.textContent.length == 32
 
   describe "item complete", ->
     Given -> @item.complete = true

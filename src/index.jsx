@@ -18,8 +18,12 @@ class TodolistItem extends React.Component {
 
   render() {
     let { item, handleTitleClick, handleCheckboxClick, handleHover } = this.props;
-    let { title, id, complete } = item;
+    let { title, id, complete, highlight } = item;
     let isComplete = complete ? "complete" : "incomplete";
+
+    if(title.length > 28){
+      title = item.title.substring(0, 28) + " ...";
+    }
 
     return (
       <li onMouseOut={ handleHover.bind(this, id, false) }
