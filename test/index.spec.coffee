@@ -19,6 +19,7 @@ describe "Todolist Item Component", ->
     When  -> @subject  = renderElement @Component, { @item }
     Then  -> @classes = @subject.className.split ' '
     And   -> @classes.includes "todolist_item"
+    And   -> !@classes.includes "todolist_item-is-highlighted"
     And   -> @checkbox = @subject.querySelector('.checkbox')
     And   -> @checkbox.className.split(' ').includes 'checkbox-is-incomplete'
 
@@ -33,22 +34,26 @@ describe "Todolist Item Component", ->
     When  -> @subject  = renderElement @Component, { @item }
     And   -> @subject.className.split(' ').includes 'todolist_item-is-highlighted'
 
+  describe "hover item", ->
+    Given  -> 
+      @handleHover = sinon.spy()
+      @subject     = renderElement @Component, { @item, @handleHover }
+    When   -> TestUtils.Simulate.mouseOver(@subject);
+    Then   -> expect(@handleHover).to.be.calledWith(@item.id)
+
   describe "click checkbox", ->
     Given  -> 
-      @onCheckboxClick = sinon.spy()
-      @subject  = renderElement @Component, { @item, @onCheckboxClick }
+      @handleCheckboxClick = sinon.spy()
+      @subject  = renderElement @Component, { @item, @handleCheckboxClick }
       @checkbox = @subject.querySelector('.checkbox')
     When   -> TestUtils.Simulate.click(@checkbox)
-    Then   -> expect(@onCheckboxClick).to.be.calledWith(@item.id)
+    Then   -> expect(@handleCheckboxClick).to.be.calledWith(@item.id)
 
   describe "click title", ->
     Given  -> 
-      @onTitleClick = sinon.spy()
-      @subject  = renderElement @Component, { @item, @onTitleClick }
+      @handleTitleClick = sinon.spy()
+      @subject  = renderElement @Component, { @item, @handleTitleClick }
       @title = @subject.querySelector('.title')
     When   -> TestUtils.Simulate.click(@title)
-    Then   -> expect(@onTitleClick).to.be.calledWith(@item)
+    Then   -> expect(@handleTitleClick).to.be.calledWith(@item)
 
-  xdescribe "hover item", ->
-    When   -> TestUtils.Simulate.mouseOver(@subject);
-    Then   -> expect(handleHover).to.be.calledWith(@item.id)

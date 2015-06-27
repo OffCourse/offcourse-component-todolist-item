@@ -8,35 +8,42 @@ class TodolistItem extends React.Component {
   }
 
   classes(){
+    let { item } = this.props;
+    let highlightClass = `${this.name}-is-highlighted`;
     return classnames({
-      [this.name]: true
+      [this.name]: true,
+      [highlightClass]: item.highlight
     });
   }
 
   render() {
-    let { item, onCheckboxClick, onTitleClick } = this.props;
+    let { item, handleTitleClick, handleCheckboxClick, handleHover } = this.props;
     let { title, id, complete } = item;
     let isComplete = complete ? "complete" : "incomplete";
 
     return (
-      <section className={ this.classes() }>
+      <li onMouseOut={ handleHover.bind(this, id, false) }
+          onMouseOver={ handleHover.bind(this, id, true) }
+          className={ this.classes() }>
         <span className={ `checkbox checkbox-is-${isComplete}` }
-              onClick={ onCheckboxClick.bind(this, id) }></span>
+              onClick={ handleCheckboxClick.bind(this, id) }></span>
         <span className="title title-resource"
-              onClick={ onTitleClick.bind(this, item) }>{ title }</span>
-      </section>
+              onClick={ handleTitleClick.bind(this, item) }>{ title }</span>
+      </li>
     );
   }
 }
 
 TodolistItem.defaultProps = {
-  onCheckboxClick: () =>{},
-  onTitleClick: () =>{}
+  handleCheckboxClick: () =>{},
+  handleTitleClick: () => {},
+  handleHover: () => {}
 };
 
 TodolistItem.propTypes = {
-  onCheckboxClick: React.PropTypes.func,
-  onTitleClick: React.PropTypes.func,
+  handleHover: React.PropTypes.func,
+  handleTitleClick: React.PropTypes.func,
+  handleCheckboxClick: React.PropTypes.func,
   item: React.PropTypes.object.isRequired
 };
 
