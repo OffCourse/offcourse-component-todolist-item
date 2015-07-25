@@ -38,6 +38,7 @@ class Example extends React.Component {
           handleTitleClick={ this.handleClick.bind(this, "title") }
           handleCheckboxClick={ this.handleClick.bind(this, "checkbox") }
           handleHover={ this.handleHover.bind(this) }
+          parentId={ "1" }
           item={ item }/>
           <p>Selection: { JSON.stringify(selection) || "click title" }</p>
       </section>
