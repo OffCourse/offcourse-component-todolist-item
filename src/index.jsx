@@ -34,21 +34,20 @@ class TodolistItem extends React.Component {
     let { item, parentId, handleTitleClick, handleCheckboxClick, handleHover } = this.props;
     let { title, id, complete, highlight } = item;
     let isComplete = complete ? "complete" : "incomplete";
-    let selection = { id, parentId };
 
     if(title.length > 28){
       title = item.title.substring(0, 28) + " ...";
     }
 
     return (
-      <li onMouseOut={ handleHover.bind(this, selection, false) }
-          onMouseOver={ handleHover.bind(this, selection, true) }
+      <li onMouseOut={ handleHover.bind(this, item.id, false) }
+          onMouseOver={ handleHover.bind(this, item.id, true) }
           className={ this.classes() }>
         <p>
           <span className={ `checkbox checkbox-is-${isComplete}` }
-                onClick={ handleCheckboxClick.bind(this, selection) }></span>
+                onClick={ handleCheckboxClick.bind(this, item.id) }></span>
           <span className={ `${this.name}-title` }
-                onClick={ handleTitleClick.bind(this, selection) }>{ title }</span>
+                onClick={ handleTitleClick.bind(this, item.id) }>{ title }</span>
         </p>
       </li>
     );

@@ -44,23 +44,20 @@ describe "Todolist Item Component", ->
   describe "hover item", ->
     Given  -> 
       @handleHover = sinon.spy()
-      @parentId = "1"
-      @subject     = renderElement @Component, { @item, @parentId, @handleHover }
+      @subject     = renderElement @Component, { @item, @handleHover }
     When   -> TestUtils.Simulate.mouseOver(@subject);
     Then   ->
-      selection = { id: @item.id, @parentId }
-      expect(@handleHover).to.be.calledWith(selection)
+      expect(@handleHover).to.be.calledWith(@item.id)
 
   describe "click checkbox", ->
     Given  -> 
       @handleCheckboxClick = sinon.spy()
       @parentId = "1"
-      @subject     = renderElement @Component, { @item, @parentId, @handleCheckboxClick }
+      @subject     = renderElement @Component, { @item, @handleCheckboxClick }
       @checkbox = @subject.querySelector('.checkbox')
     When   -> TestUtils.Simulate.click(@checkbox)
     Then   ->
-      selection = { id: @item.id, @parentId }
-      expect(@handleCheckboxClick).to.be.calledWith(selection)
+      expect(@handleCheckboxClick).to.be.calledWith(@item.id)
 
   describe "click title", ->
     Given  -> 
@@ -69,5 +66,4 @@ describe "Todolist Item Component", ->
       @title = @subject.querySelector('.todolist_item-title')
     When   -> TestUtils.Simulate.click(@title)
     Then   -> 
-      selection = { id: @item.id, @parentId }
-      expect(@handleTitleClick).to.be.calledWith(selection)
+      expect(@handleTitleClick).to.be.calledWith(@item.id)
