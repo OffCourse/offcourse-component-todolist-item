@@ -1,5 +1,17 @@
 import React from "react";
 import Example from "./example.jsx";
-import "offcourse-styles/index.css";
 
-React.render(<Example/>, document.body);
+const baseUnit = 30;
+
+const baseFont = {
+  family: "Helvetica",
+  size: (baseUnit / 30) * 16
+};
+
+const colors = {
+  primary: "#E6E600"
+};
+
+const theme = { baseUnit, baseFont, colors};
+
+React.render(<Example theme={ theme }/>, document.body);

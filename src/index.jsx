@@ -1,53 +1,41 @@
 import React, { PropTypes } from "react";
-import classnames from "classnames";
+import Radium from "radium";
+import Styles from "./styles";
 
+@Radium
 class TodolistItem extends React.Component {
 
   static propTypes = {
     handleHover: PropTypes.func,
     handleTitleClick: PropTypes.func,
     handleCheckboxClick: PropTypes.func,
-    item: PropTypes.object.isRequired
+    item: PropTypes.object.isRequired,
+    theme: PropTypes.object
   };
 
   static defaultProps = {
     handleCheckboxClick: () =>{},
     handleTitleClick: () => {},
-    handleHover: () => {}
+    handleHover: () => {},
+    theme: {}
   };
 
-  constructor(props){
-    super(props);
-    this.name = "todolist_item";
-  }
-
-  classes(){
-    let { item } = this.props;
-    let highlightClass = `${this.name}-is-highlighted`;
-    return classnames({
-      [this.name]: true,
-      [highlightClass]: item.highlight
-    });
-  }
-
   render() {
-    let { item, parentId, handleTitleClick, handleCheckboxClick, handleHover } = this.props;
-    let { title, id, complete, highlight } = item;
-    let isComplete = complete ? "complete" : "incomplete";
-
-    if(title.length > 28){
-      title = item.title.substring(0, 28) + " ...";
-    }
+    const { item, parentId, handleTitleClick, handleCheckboxClick, theme, handleHover } = this.props;
+    const { id, title, complete, highlight } = item;
+    const isCompleted = complete ? "complete" : "incomplete";
+    const isHighlighted = highlight ? "highlight" : "noHighlight";
+    const itemTitle = title <= 28 ? title : title.substring(0, 28) + " ...";
+    const styles = new Styles(theme);
 
     return (
-      <li onMouseOut={ handleHover.bind(this, item.id, false) }
-          onMouseOver={ handleHover.bind(this, item.id, true) }
-          className={ this.classes() }>
-        <p>
-          <span className={ `checkbox checkbox-is-${isComplete}` }
+      <li style={ [styles.base, styles.outer, styles[isHighlighted]] }
+          onMouseOut={ handleHover.bind(this, item.id, false) }
+          onMouseOver={ handleHover.bind(this, item.id, true) }>
+        <p style={ [styles.base, styles.inner] }>
+          <span style={ [styles.checkbox, styles[isCompleted]] }
                 onClick={ handleCheckboxClick.bind(this, item.id) }></span>
-          <span className={ `${this.name}-title` }
-                onClick={ handleTitleClick.bind(this, item.id) }>{ title }</span>
+          <span onClick={ handleTitleClick.bind(this, item.id) }>{ itemTitle }</span>
         </p>
       </li>
     );
