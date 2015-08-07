@@ -9,6 +9,7 @@ chai.use(sinonChai)
 TestUtils = React.addons.TestUtils
 {div} = React.DOM
 mockery = require 'mockery'
+mockery.enable({ warnOnUnregistered: false})
 
 `function testdom(markup){
   if (typeof document !== 'undefined') return
@@ -23,14 +24,6 @@ renderElement = (Component, options) ->
   React.findDOMNode container
 
 mockModule = (moduleUnderTest, mockModules) ->
-
-  mockery.registerAllowables [
-    moduleUnderTest, 
-    'react', 
-    './lib/React', 
-    'classnames',
-    'ramda'
-  ]
 
   container = MockComponent: React.createClass render: -> null
   spy = sinon.spy(container, 'MockComponent')
